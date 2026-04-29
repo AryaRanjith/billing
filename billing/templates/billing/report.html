@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Reports - ChickenPOS</title>
+    <style>
+        :root {
+            --primary: #1a237e;
+            --accent: #c62828;
+            --bg: #f0f2f5;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; }
+        .sidebar { width: 260px; background: var(--primary); color: white; padding: 20px 0; }
+        .nav-item { padding: 14px 24px; color: white; text-decoration: none; display: block; opacity: 0.8; }
+        .nav-item:hover { background: rgba(255,255,255,0.1); opacity: 1; }
+        .main { flex: 1; overflow-y: auto; padding: 24px; }
+        .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { color: var(--primary); text-transform: uppercase; font-size: 12px; font-weight: bold; }
+        .back-btn { display: inline-block; margin-bottom: 20px; color: var(--primary); text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div style="padding: 24px; font-size: 20px; font-weight: bold;">ChickenPOS</div>
+        <a href="{% url 'dashboard' %}" class="nav-item">📊 Dashboard</a>
+        <a href="{% url 'report' %}" class="nav-item" style="background: rgba(255,255,255,0.1); opacity: 1; border-left: 4px solid var(--accent);">🧾 Sales Reports</a>
+    </div>
+    <div class="main">
+        <div class="card">
+            <h1>Detailed Sales Report</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Net Weight (KG)</th>
+                        <th>Crates</th>
+                        <th>Rate (₹)</th>
+                        <th>Total (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in transactions %}
+                    <tr>
+                        <td>{{ t.timestamp|date:"d M, H:i" }}</td>
+                        <td><strong>{{ t.weight }} KG</strong></td>
+                        <td>{{ t.no_of_crates }} x {{ t.crate_wt }} KG</td>
+                        <td>₹{{ t.price_per_kg }}</td>
+                        <td style="color: #2e7d32; font-weight: bold;">₹{{ t.total_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
