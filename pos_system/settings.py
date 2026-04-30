@@ -15,13 +15,13 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = False  # Always False in production
 
-# FIXED HOSTS (important)
+# HOSTS - Allow all in production (Render uses dynamic domains)
 ALLOWED_HOSTS = ['*']
 
-# FIXED CSRF
-CSRF_TRUSTED_ORIGINS = [
-    "https://billing-0v91.onrender.com"
-]
+# CSRF - Dynamic CSRF origins for Render
+CSRF_TRUSTED_ORIGINS = []
+if os.environ.get('RENDER_EXTERNAL_URL'):
+    CSRF_TRUSTED_ORIGINS.append(os.environ.get('RENDER_EXTERNAL_URL'))
 
 # Required for Render HTTPS
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
