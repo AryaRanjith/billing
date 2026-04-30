@@ -13,7 +13,8 @@ SECRET_KEY = os.environ.get(
     'django-insecure-temporary-key-change-later'
 )
 
-DEBUG = False  # Always False in production
+# DEBUG - Enable temporarily to see errors
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # HOSTS - Allow all in production (Render uses dynamic domains)
 ALLOWED_HOSTS = ['*']
