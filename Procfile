@@ -1,2 +1,1 @@
-release: python manage.py migrate --noinput
-web: gunicorn pos_system.wsgi --log-level debug
+web: python manage.py migrate --noinput && gunicorn pos_system.wsgi --log-level debug
