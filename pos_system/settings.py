@@ -69,12 +69,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pos_system.wsgi.application'
 
-# DATABASE (SQLite for now)
+import dj_database_url
+
+# DATABASE (PostgreSQL for Render, SQLite for local fallback)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 # PASSWORD VALIDATION
