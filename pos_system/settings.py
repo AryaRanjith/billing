@@ -98,9 +98,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Ensure staticfiles directory exists
-import os
-os.makedirs(STATIC_ROOT, exist_ok=True)
+# Ensure staticfiles directory exists (but handle read-only filesystems like Vercel)
+try:
+    os.makedirs(STATIC_ROOT, exist_ok=True)
+except OSError:
+    # Read-only filesystem (e.g., Vercel), skip directory creation
+    pass
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
